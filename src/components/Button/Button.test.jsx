@@ -1,6 +1,6 @@
 import { describe, expect, test, vi } from 'vitest';
 import { fireEvent, render, screen } from '../../test.utils';
-import Button from './Button';
+import Button from '.';
 
 describe('Button test', () => {
     test('should be disabled', () => {

@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import PropTypes from 'prop-types';
-import './Input.scss';
+import './index.scss';
 import { forwardRef } from 'react';
 
 const Input = forwardRef((props, ref) => {

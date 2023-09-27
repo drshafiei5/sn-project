@@ -1,13 +1,11 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react-refresh/only-export-components */
-import { BrowserRouter as Router } from 'react-router-dom';
 import { render } from '@testing-library/react';
-import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
-import PropTypes from 'prop-types';
-
 import { store } from './redux/store';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-const Providers = ({ children }) => {
+const AllTheProviders = ({ children }) => {
     return (
         <Provider store={store}>
             <Router>{children}</Router>
@@ -15,21 +13,10 @@ const Providers = ({ children }) => {
     );
 };
 
-Providers.propTypes = {
-    children: PropTypes.node.isRequired
-};
+const customRender = (ui, options) => render(ui, { wrapper: AllTheProviders, ...options });
 
-const customRender = (ui, options) => render(ui, { wrapper: Providers, ...options });
+// re-export everything
+export * from '@testing-library/react';
 
-const renderWithRouter = (ui) => {
-    const history = createBrowserHistory();
-    return {
-        history,
-        ...render(ui, { wrapper: Providers })
-    };
-};
-
-export * from "@testing-library/react";
-export * from "@testing-library/jest-dom";
+// override render method
 export { customRender as render };
-export { renderWithRouter };

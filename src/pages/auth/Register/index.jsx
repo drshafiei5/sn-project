@@ -1,16 +1,59 @@
-import Button from '../../../components/button/Button';
-import Input from '../../../components/input/Input';
-import './index.scss';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
+import useLocalStorage from '../../../hooks/useLocalStorage';
+import { authService } from '../../../services/api/auth.service';
+import { Utils } from '../../../services/utils/utils.service';
+import { setUser } from '../../../redux/user/user.reducer';
+import './index.scss';
 
 const Register = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
     const [alertType, setAlertType] = useState('');
     const [hasError, setHasError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const [setStoredUsername] = useLocalStorage('username', 'set');
+    const [setLoggedIn] = useLocalStorage('keepLoggedIn', 'set');
+
+    const registerUser = async (e) => {
+        e.preventDefault();
+        try {
+            setLoading(true);
+
+            const avatarColor = Utils.avatarColor();
+            const avatarImage = Utils.generateAvatar(username.charAt(0).toUpperCase(), avatarColor);
+            const result = await authService.signUp({
+                username,
+                email,
+                password,
+                avatarColor,
+                avatarImage
+            });
+
+            setLoggedIn(true);
+            setStoredUsername(username);
+            setAlertType('alert-success');
+
+            const { token, user } = result.data;
+            dispatch(setUser({ token, profile: user }));
+            navigate('/app/social/streams');
+        } catch (error) {
+            setLoading(false);
+            setHasError(true);
+            setAlertType('alert-error');
+            setErrorMessage(error?.response?.data?.message);
+        }
+    };
 
     return (
         <div className="auth-inner">
@@ -19,7 +62,7 @@ const Register = () => {
                     {errorMessage}
                 </div>
             )}
-            <form className="auth-form" onSubmit={() => {}}>
+            <form className="auth-form" onSubmit={registerUser}>
                 <div className="form-input-container">
                     <Input
                         id="username"
