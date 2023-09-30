@@ -7,7 +7,7 @@ import Input from '../../../components/Input';
 import Button from '../../../components/Button';
 import useLocalStorage from '../../../hooks/useLocalStorage';
 import { authService } from '../../../services/api/auth.service';
-import { setUser } from '../../../redux/user/user.reducer';
+import { setUser } from '../../../redux/reducers/user/user.reducer';
 import './index.scss';
 
 const Login = () => {

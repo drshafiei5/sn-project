@@ -7,7 +7,7 @@ import Button from '../../../components/Button';
 import useLocalStorage from '../../../hooks/useLocalStorage';
 import { authService } from '../../../services/api/auth.service';
 import { Utils } from '../../../services/utils/utils.service';
-import { setUser } from '../../../redux/user/user.reducer';
+import { setUser } from '../../../redux/reducers/user/user.reducer';
 import './index.scss';
 
 const Register = () => {
