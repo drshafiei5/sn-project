@@ -5,7 +5,7 @@ import { getPosts } from "../../api/posts";
 const initialState = {
     posts: [],
     totalPostsCount: 0,
-    isLoading: false
+    status: 'idle'
 };
 
 export const postsSlice = createSlice({
@@ -14,18 +14,18 @@ export const postsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getPosts.pending, (state, { payload }) => {
-            state.isLoading = true;
+            state.status = 'pending';
         });
 
         builder.addCase(getPosts.fulfilled, (state, { payload }) => {
-            state.isLoading = false;
+            state.status = 'fulfilled';
             const { posts, totalPosts } = payload;
             state.posts = [...posts];
             state.totalPostsCount = totalPosts;
         });
 
         builder.addCase(getPosts.rejected, (state, { payload }) => {
-            state.isLoading = false;
+            state.status = 'rejected';
         });
     },
 })

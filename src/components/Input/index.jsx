@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import './index.scss';
 import { forwardRef } from 'react';
+import { omit } from 'lodash';
 
 const Input = forwardRef((props, ref) => {
     return (
@@ -13,20 +14,12 @@ const Input = forwardRef((props, ref) => {
                     </label>
                 )
             }
-            <input
+             <input
                 ref={ref}
-                id={props.id}
-                name={props.name}
-                type={props.type}
-                value={props.value}
                 onChange={props.handleChange}
-                placeholder={props.placeholder}
-                onClick={props.onClick}
-                onFocus={props.onFocus}
-                onBlur={props.onBlur}
                 className={`form-input ${props.className}`}
-                style={props.style}
                 autoComplete="false"
+                {...omit(props, 'handleChange', 'className', 'labelText')}
             />
         </div>
     );

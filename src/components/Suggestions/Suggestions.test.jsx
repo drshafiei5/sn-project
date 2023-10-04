@@ -39,7 +39,7 @@ describe('Suggestions', () => {
         user._id = Utils.generateString(6);
         const userThree = { ...user };
 
-        store.dispatch(setSuggestions({ users: [userOne, userTwo, userThree], isLoading: false }));
+        store.dispatch(setSuggestions({ users: [userOne, userTwo, userThree], status: 'fulfilled' }));
         render(<Suggestions />);
         const items = screen.queryAllByTestId('suggestions-item');
         expect(items.length).toEqual(3);
@@ -53,7 +53,7 @@ describe('Suggestions', () => {
             users.push(userItem);
         }
 
-        store.dispatch(setSuggestions({ users, isLoading: false }));
+        store.dispatch(setSuggestions({ users, status: 'fulfilled' }));
         const { baseElement } = render(<Suggestions />);
 
         const items = screen.queryAllByTestId('suggestions-item');
@@ -71,7 +71,7 @@ describe('Suggestions', () => {
             users.push(userItem);
         }
 
-        store.dispatch(setSuggestions({ users, isLoading: false }));
+        store.dispatch(setSuggestions({ users, status: 'fulfilled' }));
         const { baseElement } = render(<Suggestions />);
 
         const viewMore = baseElement.querySelector('.view-more');

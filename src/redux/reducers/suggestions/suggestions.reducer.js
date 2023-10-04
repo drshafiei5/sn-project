@@ -3,7 +3,7 @@ import { getUserSuggestions } from '../../api/suggestion';
 
 const initialState = {
     users: [],
-    isLoading: false
+    status: 'idle'
 };
 
 const suggestionsSlice = createSlice({
@@ -17,17 +17,17 @@ const suggestionsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getUserSuggestions.pending, (state) => {
-            state.isLoading = true;
+            state.status = 'pending';
         });
         
         builder.addCase(getUserSuggestions.fulfilled, (state, action) => {
-            state.isLoading = false;
+            state.status = 'fulfilled';
             const { users } = action.payload;
             state.users = [...users];
         });
 
         builder.addCase(getUserSuggestions.rejected, (state) => {
-            state.isLoading = false;
+            state.status = 'rejected';
         });
     }
 });

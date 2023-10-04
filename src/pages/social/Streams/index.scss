@@ -14,11 +14,6 @@
         overflow-x: hidden;
         overflow-y: scroll;
 
-        &::-webkit-scrollbar,
-        & *::-webkit-scrollbar {
-            display: none;
-        }
-
         .streams-post {
             grid-area: post;
             overflow-y: scroll;
@@ -32,6 +27,11 @@
             background-color: var(--white-1);
             max-height: 600px;
             border-radius: 16px;
+
+            &::-webkit-scrollbar,
+            & *::-webkit-scrollbar {
+                display: none;
+            }
         }
     }
 }

@@ -11,6 +11,15 @@ const getUserSuggestions = createAsyncThunk(
         } catch (error) {
             console.log(error);
         }
+    },
+    {
+        condition: (_data, { getState }) => {
+            const { suggestions: { status } } = getState();
+            if (['fulfilled', 'pending'].includes(status)) {
+                return false
+            }
+            return true;
+        },
     })
 
 

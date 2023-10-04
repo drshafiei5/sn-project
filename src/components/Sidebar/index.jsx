@@ -1,15 +1,13 @@
 import { createSearchParams, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './index.scss';
 
 import { fontAwesomeIcons, sideBarItems } from '../../services/utils/static.data';
-import { getPosts } from '../../redux/api/posts';
 import { useCallback, useEffect, useState } from 'react';
 import { ChatUtils } from '../../services/utils/chat-utils.service';
 
 const Sidebar = () => {
     const location = useLocation();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [pageName, setPageName] = useState('');
     const { profile } = useSelector((state) => state?.user);
@@ -24,10 +22,6 @@ const Sidebar = () => {
         switch (name) {
             case 'Profile':
                 url = `${url}/${profile?.username}?${createSearchParams({ id: profile?._id, uId: profile?.uId })}`;
-                break;
-
-            case 'Streams':
-                dispatch(getPosts());
                 break;
 
             default:
