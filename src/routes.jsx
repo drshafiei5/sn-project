@@ -1,9 +1,11 @@
 import { useRoutes } from 'react-router-dom';
 
-import Social from './pages/social';
-import Streams from './pages/social/streams/Streams';
+import Social from './pages/Social';
+import Streams from './pages/Social/Streams';
 import ProtectedRoute from './components/ProtectedRoute';
-import { AuthTabs, ForgotPassword, ResetPassword } from './pages/auth';
+import { AuthTabs, ForgotPassword, ResetPassword } from './pages/Auth';
+import Profile from './pages/Social/Profile';
+import Chat from './pages/Social/Chat';
 
 export const AppRouter = () => {
     const routes = useRoutes([
@@ -27,6 +29,14 @@ export const AppRouter = () => {
                 {
                     path: 'streams',
                     element: <Streams />
+                },
+                {
+                    path: 'chat/messages',
+                    element: <Chat />
+                },
+                {
+                    path: 'profile/:username',
+                    element: <Profile />
                 }
             ]
         }

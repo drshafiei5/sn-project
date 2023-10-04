@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from "vitest";
-import userReducer, { setUser, clearUser, updateUserProfile } from "./user.reducer";
+import userReducer, { clearUser, setUser, updateUserProfile } from "./user.reducer";
 
 const initialState = {
     token: '',

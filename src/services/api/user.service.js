@@ -10,6 +10,11 @@ class UserService {
         const response = await axios.get('/signout');
         return response;
     }
+
+    async getUserSuggestions() {
+        const response = await axios.get('/user/profile/user/suggestions');
+        return response;
+    }
 }
 
 

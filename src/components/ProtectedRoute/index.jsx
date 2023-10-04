@@ -4,11 +4,11 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import useOnceCall from '../../hooks/useOnceCall';
 import { userService } from '../../services/api/user.service';
-import { clearUser, setUser } from '../../redux/user/user.reducer';
+import { clearUser, setUser } from '../../redux/reducers/user/user.reducer';
 
 // eslint-disable-next-line react/prop-types
 const ProtectedRoute = ({ children }) => {
-    const { profile, token } = useSelector((state) => state.user);
+    const user = useSelector((state) => state.user);
     const [userData, setUserData] = useState(null);
     const [tokenIsValid, setTokenIsValid] = useState(false);
 
@@ -21,11 +21,14 @@ const ProtectedRoute = ({ children }) => {
 
     const checkUser = useCallback(async () => {
         try {
-            const res = await userService.checkCurrentUser();
-            const { token, user } = res.data;
-            setUserData(user);
             setTokenIsValid(true);
-            dispatch(setUser({ token, profile: user }));
+            setUserData(user);
+
+            if (user.token.length === 0) {
+                const res = await userService.checkCurrentUser();
+                const { token, user } = res.data;
+                dispatch(setUser({ token, profile: user }));
+            }
         } catch (error) {
             setTokenIsValid(false);
             setTimeout(async () => {
@@ -37,13 +40,14 @@ const ProtectedRoute = ({ children }) => {
                 navigate('/');
             }, 1000);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [deleteStorageUsername, dispatch, navigate, setLoggedIn]);
 
     useOnceCall(() => {
         checkUser();
     });
 
-    if (keepLoggedIn || (!keepLoggedIn && userData) || (profile && token)) {
+    if (keepLoggedIn || (!keepLoggedIn && userData) || (user.profile && user.token)) {
         if (!tokenIsValid) {
             return <></>;
         } else {
